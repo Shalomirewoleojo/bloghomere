@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                {% if pro.userprofile.image %}
+                    <div>
+                        <img class="face"  style="width: 50%; box-shadow: 0 0 20px 0 pink"  src="{{pro.userprofile.image.url}}" alt="">
+                    </div>
+                {% else %}
+                    <div>
+                        <img class="face"  style="width: 50%; box-shadow: 0 0 20px 0 pink"  src="{% static 'pic/human_icon1.png' %}" alt="">
+                    </div>
+                {% endif %}
+                <div class="info">
+                    <p>
+                        Username: {{pro.username}}<br>
+                        First Name: {{pro.first_name}}<br>
+                        Last Name: {{pro.last_name}}<br>
+                        Email: {{pro.email}}<br>
+                        Date of Birth: {{pro.userprofile.dob}}<br>
+                        Subscribers: {{subscribers.all.count}} <br>
+                    </p>
+                </div>
+            </div>
+            {% block list %} {% include 'profile_list.html' %} {% endblock %}
+        </div>
+    </div>
+
+{% endblock %}
+    

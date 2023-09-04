@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Delete Blog {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h3 style="color: rgb(137, 173, 81);">Delete Post</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <h4>Are you sure you want to delete the post "{{object.title}}"?</h4>
+        <button class="btn btn-outline-danger" type="submit" style="margin-bottom: 70px; line-height: 20px" >Yes, delete</button>
+        <a href="{% url 'myworks' %}" class="btn btn-outline-secondary" style="margin-bottom: 70px; line-height: 20px" >Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

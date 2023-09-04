@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+{% load social_share %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Startup, Blog, Share ideas, Current news"> 
+    <meta name="description" content=" Startup your blog ">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{med.favicon.url}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.1/css/all.min.css">
+
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"
+    />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main1.css' %}">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <nav class=" navbar-light ">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <h2>BlogHome</h2>
+        </a>
+        <!-- <form class=" my-2 my-lg-0" method="GET">
+          <input class="form-control mr-sm-2" type="text"  name="q" id="id_q" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+        <form class=" my-2 my-lg-0" action="{% url 'searchbar' %}" method="GET">
+          <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search" />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+          <!-- <div id="autocomplete" class="autocomplete">
+            <input class="autocomplete-input form-control mr-sm-2" name="sblog" type="text" placeholder="Search" />
+            <ul class="autocomplete-result-list"></ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </div> -->
+
+        </form>
+        <div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+              <form class=" my-2 my-lg-0" action="{% url 'genre' %}" method="GET"> <h4>Genre</h4>
+                <select style="border: 2px solid rgb(16, 197, 16);" name="sick" id="">
+                  <option style="height: 50px;" value="">-Select-</option>
+                  {% for item in genre %}
+                      <option value="{{item.genre1}}">{{item.genre1}}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-outline-success my-2 my-sm-0" style="width: 65px;" type="submit">go</button>
+              </form>
+                <!-- <ul class="navbar-nav ml-auto">`
+                  <li><h4>Genre</h4></li> 
+                  {% for item in genre %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="">
+                        {{item.genre1}}
+                      </a>
+                    </li>
+                  {% endfor %}`
+                </ul> -->
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% block list %} {% endblock %}
+    {% endblock %}
+
+    <div class="footer" style="padding: 15px -10px 0 0px;" >
+        <div>
+            <ul>
+                <!-- <li><a href="">Subscribed</a></li> -->
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'create' %}">Create Blog</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+
+<script type="text/javascript"> 
+  document.getElementById("id_q").value = "{{query}}"
+</script>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<!-- <script src="{% static 'js/like.js' %}"></script> -->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+
+<!-- use backtick {`} when using $ sign in java  -->
+
+<script>
+  new Autocomplete('#autocomplete', {
+    search : input => {
+      console.log(input)
+      const url = `/searchbar/?sblog=${input}`
+      return new Promise(resolve =>{
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          
+          resolve(data.data)
+        })
+      }
+      )
+    }
+  })
+</script>
+
+{% add_pinterest_script %}
+</body> 
+</html>

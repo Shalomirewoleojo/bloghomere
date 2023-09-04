@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %} {{content.title}} {% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    {% if messages %}
+        {% for message in messages  %}
+            <div  class="alert alert-{{message.tags}}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message|safe }}
+            </div>									  
+        {% endfor %}								  
+    {% endif %}
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            {% if author1.userprofile.image %}
+            <div>
+                <img class="face"  style="width: 75%; box-shadow: 0 0 20px 0 pink"  src="{{author1.userprofile.image.url}}" alt="">
+            </div> 
+            {% else %}
+            <div>
+                <img class="face"  style="width: 75%; box-shadow: 0 0 20px 0 pink"  src="{% static 'pic/human_icon1.png' %}" alt="">
+            </div>
+            {% endif %}
+            <h3 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">{{ author1.username }}</h3>
+            <br>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <div><h4 style="margin-top: 35%;">Number of blogs:</h4>
+            {{blog.all.count}}</div>
+            <div><h4 style="margin-top: 5%;">Number of subscribers:</h4>
+            {{subscribers.all.count}}</div>
+        </div>
+        <div>
+        {% if not user == author1 %}
+            {% if not delet %}
+                <div class="col-lg-3 col-md-3 col-sm-3", style="padding-top: 55%"> 
+                    <form action="{% url 'view' author1.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="followed" id="" value="{{ author1.id }}">
+                        <input type="hidden" name="follower" id="" value="{{ user.username }}">
+                        <button class="sog" style="margin-top: 35%; width:fit-content;">Subscribe</button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="{% url 'unsub' author1.id %}">
+                    <button class="sog" style="margin-top: 65%; width:fit-content;">Unsubscribe</button>
+                </a>
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% if blog %}
+<hr>
+
+<div class="body">
+    <div class="container">
+        <h2> <center> {{ author1.username }}'s Blogs</center></h2>
+        <center>
+            <div style="display: inline-block;" >
+                <a href="#video" class="sog" >Video</a>
+                <a href="#audio" class="sog" >Audio</a>
+                <a href="#text" class="sog" >Text</a>
+            </div>
+        </center>
+        <br> 
+        <!-- <h6>Note: Empty categories mean there are no blogs with that category yet. If you would like to make one, we welcome you to go to 'create blog' and make one now with ease.</h6 > -->
+       <!-- <a href="{% url 'video' %}"> <h2>Video</h2></a> -->
+       <h2 id="video">Video</h2>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.video %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6 ">
+                            <a href="{% url 'videoblog' item.id item.slug %}"><img src="{{item.image_cover.url}}" alt=""></a>
+                            <a href="{% url 'videoblog' item.id item.slug %}"><h6>{{item.title}}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <!-- <a href="{% url 'audio' %}"> <h2>Audio</h2></a> -->
+        <h2 id="audio">Audio</h2>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.audio %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'audioblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'audioblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <!-- <a href="{% url 'text' %}"> <h2>Text</h2></a> -->
+        <h2 id="text">Text</h2>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.text %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'textblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'textblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>  
+    </div> <br> <br>
+</div>
+{% endif %}
+{% endblock %}

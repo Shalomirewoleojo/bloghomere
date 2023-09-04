@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Subscriptions {% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="body">
+    <div class="container">
+    {% if fol1 %}    
+        <h4> <center>Subscriptions ( {{fol1.all.count}} ) </center></h4>
+        <div class="row">
+            {% for item in fol1 %}
+            <div class="col-6 col-lg-3 col-md-4 col-sm-6">
+                {% if item.followed.userprofile.image %}
+                <div>
+                    <img class="face"  style="width: 100%; box-shadow: 0 0 20px 0 pink"  src="{{item.followed.userprofile.image.url}}" alt="">
+                </div> 
+                {% else %}
+                <div>
+                    <img class="face"  style="width: 100%; box-shadow: 0 0 20px 0 pink"  src="{% static 'pic/human_icon1.png' %}" alt="">
+                </div>
+                {% endif %}
+                <a href="{% url 'view' item.followed.id %}">
+                    <h4 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"><center>{{ item.followed.username }}</center></h4>
+                </a>
+                <br>
+            </div>
+            {% endfor %}
+        </div> <br> <br>
+    {% else %} 
+    <p>You haven't subscribed to any blog page yet.</p> 
+    {% endif %}
+    </div> <br>
+</div>
+
+{% endblock %}

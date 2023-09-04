@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} Text Category {% endblock %}
+
+{% block content %}
+    <div class="body">
+        <div class="container">
+            <h2>Text</h2>
+               <div class="row">
+                    {% for item in blog1 %}
+                        {% if item.text %}
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <a href="{% url 'textblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                                <a href="{% url 'textblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+               </div>
+        </div>   <br>      
+    </div> 
+
+{% endblock %}

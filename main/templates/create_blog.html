@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %} Create Blog {% endblock %}
+
+{% block content %}
+    <div class="container">
+    {% if messages %}
+        {% for message in messages  %}
+            <div  class="alert alert-{{message.tags}}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message|safe }}
+            </div>									  
+        {% endfor %}								  
+    {% endif %}
+    <h4>For a better experience, please use a large screen.</h4>
+        <form class="info sadl" action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+            <div class="row">
+                <div class="col-lg-4">
+                <input type="hidden" name="author" value="{{ user.id }}" id="">
+                Title: <input class="til" style="height: 30px; color: green;" type="text" name="title"> <br>
+                Category: 
+                <select style="border: 2px solid rgb(16, 197, 16);" name="category" id="">
+                    <option value="">--Select--</option>
+                    {% for item in genre %}
+                        <option value="{{item.genre1}}">{{item.genre1}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                Image cover: <input name="image_cover" type="file" id="file">
+                <!-- <label for="file">
+                    <span class="material-icons">
+                        photo_camera_back
+                        </span> Choose a photo
+                </label>   -->
+                <br>
+
+                <div style="color: rgb(108, 160, 57);">
+                    <h6 >You can choose to make a video, audio or written blog here. <br> If you decide to do a combination,<br> remember your viewers would only see one at a time.</h6>
+                </div>
+                Video: <h6>(mp4 files are not advisable)</h6>
+                <input type="file" name="video" id="vid">
+                <!-- <label for="vid">
+                    <span class="material-icons">
+                        video_library
+                        </span> Import a video
+                </label> -->
+                <br>
+                Audio: 
+                <input type="file" name="audio" id="audio">
+                <!-- <label for="audio">
+                    <span class="material-icons">
+                        earbuds
+                        </span> Import audio
+                </label> -->
+                <br>
+                </div>
+                <div class="col-lg-8">
+                    <div>
+                        Text: <br> 
+                    <!-- <textarea style=" width: 100%; font-size: 15px; line-height: 20px; border: 2px solid rgb(16, 197, 16);" name="text" id="" cols="37" rows="20"></textarea>  -->
+                        <p>{{ form.text|safe }} </p>
+                    </div>
+                        Description: <br>
+                    <div>
+                        <textarea style=" width: 100%; font-size: 15px; line-height: 20px; border: 2px solid rgb(16, 197, 16);" name="description" id="" cols="37" rows="5"></textarea>
+                    </div>
+                    <!-- <input type="text" value="" name="slug" id=""> -->
+                </div>  <br>
+                <button type="submit" style="margin-bottom: 70px; line-height: 20px" >Post</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

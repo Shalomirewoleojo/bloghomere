@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<style>
+    .gim a:hover{
+       cursor: pointer; 
+    }
+</style>
+
+<div class="body">
+    <div class="container">
+    {% if blog %}    
+        <h4> <center>Your Blogs ( {{blog.all.count}} ) </center></h4> <br>
+        <center>
+            <div style="display: inline-block;" >
+                <a href="#video" class="sog" >Video</a>
+                <a href="#audio" class="sog" >Audio</a>
+                <a href="#text" class="sog" >Text</a>
+            </div>
+        </center> <br>
+        <!-- <h6>Note: Empty categories mean there are no blogs with that category yet. If you would like to make one, we welcome you to go to 'create blog' and make one now with ease.</h6 > -->
+        <h2 id="video">Video</h2>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.video %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6 ">
+                            <a href="{% url 'videoblog' item.id item.slug %}"><img src="{{item.image_cover.url}}" alt=""></a>
+                            <a href="{% url 'videoblog' item.id item.slug %}"><h6>{{item.title}}</h6></a>
+                            <div class="gim" style="display: inline-block;">
+                                <br>
+                                <a href="{% url 'updatepost' item.id item.slug %}" class="sog" >Update</a>
+                                <a href="{% url 'deletepost' item.id item.slug %}" class="sog" style="margin-left: 10px; border: 1px solid red;">Delete</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <h2 id="audio" >Audio</h2>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.audio %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'audioblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a> 
+                            <a href="{% url 'audioblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                            <div class="gim" style="display: inline-block;">
+                                <br>
+                                <a href="{% url 'updatepost' item.id item.slug %}" class="sog" >Update</a>
+                                <a href="{% url 'deletepost' item.id item.slug %}" class="sog" style="margin-left: 10px; border: 1px solid red;">Delete</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <h2 id="text" >Text</h2>
+        <div class="row">
+            {% for item in blog %}
+                {% if item.text %}
+                <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                    <a href="{% url 'textblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                    <a href="{% url 'textblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                    <div class="gim" style="display: inline-block;">
+                        <br>
+                        <a href="{% url 'updatepost' item.id item.slug %}" class="sog" >Update</a>
+                        <a href="{% url 'deletepost' item.id item.slug %}" class="sog" style="margin-left: 10px; border: 1px solid red;">Delete</a>
+                    </div>
+                </div>
+                    {% endif %}
+                {% endfor %}
+        </div> 
+    {% else %} 
+    <p>You have no works yet. If you would like to create a blog please click on 'Create Blog' at the bottom of the page.</p>
+    {% endif %}
+    </div> <br>
+</div>
+{% endblock %}

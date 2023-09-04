@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Startup, Blog, Share ideas, Current news"> 
+    <meta name="description" content="Startup your blog">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> 
+    <link rel="stylesheet" href="{% static 'css/main1.css' %}">
+    <title>{% block title %}Startup Page {% endblock %}</title>
+</head>
+<body>
+    
+    <section class="sec">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-9 col-lg-7">
+                    <form class="bod">
+                        {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-success alert-{{message.tags}}" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {{message}}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                    {% block content %}
+                        <div class="step step-1 active">
+                            <div class="form-group">
+                                <h2 style="font-size: 50px;">Welcome</h2>
+                                <p>Bloghome is a website that allows you to share your experiences and ideas in a fun and easy way. <br>
+                                You can discover and share your blogs here through video, audio, text or even a combination, and receive feedback. <br>
+                                So what are you waiting for? Join and enjoy!</p>
+                            </div>
+                            <button type="button" class="next-btn" >Next</button>
+                        </div>
+        
+        
+                        <div class="step step-2">
+                            <div class="form-group">
+                                <h2 style="font-size: 50px;">Terms and Conditions</h2>
+                                <p>
+                                    For the smoothe running of this website, we would need you to follow a few instructions which are: <br>
+                                    1. Before you can use the application, we will need you to register and provide some basic information. <br>
+                                    We will ensure to keep this information secure. <br>
+                                    2. The use of vulgar words or verbal harrassment by any of our users is prohibited. <br>
+                                    Failure to comply to this could lead to the deletion of your account.
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                
+                            </div>
+                            <button type="button" class="previous-btn">Prev</button>
+                            <button type="button" class="next-btn" >Accept</button>
+                        </div>
+        
+                        <div class="step step-3">
+                            
+                            <p>Thank you for your co-operation. Please register or login below:</p>
+                            <div class="form-group">
+                                <div class="form-container">
+                                    <div class="form-btn">
+                                        <span onclick="register()">Register</span>
+                                        <span onclick="login()">Login</span>
+                                        <hr id="Indicator">
+                                    </div>
+                                    <form action=""></form>
+                                    <form id="LoginForm" action="{% url 'login' %}" method="POST">
+                                    {% csrf_token %}
+                                        <input type="text" style="text-transform: lowercase;" placeholder="Username" name="username">
+                                        <input type="password" placeholder="Password" name="password">
+                                        <button type="submit" class="btn">Login</button>
+                                        <!-- <a href="{% url 'password_reset' %}">Forgotten Password?</a> -->
+                                    </form>
+                                    <form id="RegForm" action="{% url 'register' %}"  method="POST">
+                                    {% csrf_token %}
+                                        <input type="text" style="text-transform: capitalize;" placeholder="Firstname" name="first_name">
+                                        <input type="text" style="text-transform: capitalize;" placeholder="Lastname" name="last_name">
+                                        <input type="text" style="text-transform: lowercase;" placeholder="Username" name="username">
+                                        <input type="email" style="text-transform: lowercase;" placeholder="Email" name="email">
+                                        Date of Birth: <input type="date" placeholder="Date of Birth" name="dob">
+                                        <input type="password" placeholder="Password" name="password1">
+                                        <input type="password" placeholder="Repeat Password" name="password2">
+                                        <button type="submit" class="btn">Register</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- <button type="button" class="previous-btn">Prev</button> -->
+                            <!-- <button type="submit" class="submit-btn">Submit</button> -->
+                        </div>
+                    {% endblock %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="{% static 'js/formtoggle.js' %}"></script>
+<script src="{% static 'js/rough_work.js' %}"></script>
+</body>
+</html>

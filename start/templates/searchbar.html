@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %} Search Result {% endblock %}
+{% load static %}
+
+{% block content %}
+
+{{ error }}
+
+{% if post or det %}
+   <div class="body">
+    <center><h1>Search Result Relating to '{{search}}' Found</h1></center>
+    <br>
+    <center>
+        <div style="display: inline-block;" >
+            <a href="#video" class="sog" >Video</a>
+            <a href="#audio" class="sog" >Audio</a>
+            <a href="#text" class="sog" >Text</a>
+            {% if name %}
+            <a href="#profile" class="sog" >Profile</a>
+            {% endif %}
+        </div>
+    </center>
+        <br>
+        <div class="container">
+            <!-- <a href="{% url 'video' %}"> </a> -->
+            <h2 id="video">Video</h2>
+            <div class="row">
+                {% for item in post %}
+                    {% if item.video %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'videoblog' item.id item.slug %}"><img src="{{item.image_cover.url}}" alt=""></a>
+                            <a href="{% url 'videoblog' item.id item.slug %}"><h6>{{item.title}}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %} 
+                {% for item in det %}
+                    {% if item.video %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'videoblog' item.id item.slug %}"><img src="{{item.image_cover.url}}" alt=""></a>
+                            <a href="{% url 'videoblog' item.id item.slug %}"><h6>{{item.title}}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %} 
+            </div> 
+        </div> 
+        <div class="container">
+            <!-- <a href="{% url 'audio' %}"> </a> -->
+            <h2 id="audio" >Audio</h2>
+            <div class="row">
+                {% for item in post %}
+                    {% if item.audio %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'audioblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'audioblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                        {% endif %}
+                {% endfor %} 
+                {% for item in det %}
+                    {% if item.audio %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'audioblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'audioblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                        {% endif %}
+                {% endfor %} 
+            </div> 
+        </div> 
+        <div class="container">
+            <!-- <a href="{% url 'text' %}"> </a> -->
+            <h2 id="text">Text</h2>
+            <div class="row">
+                {% for item in post %}
+                    {% if item.text %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'textblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'textblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %} 
+                {% for item in det %}
+                    {% if item.text %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'textblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'textblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %} 
+            </div> 
+        </div> 
+        
+        <div class="container">
+            {% if name %}
+            <h2 id="profile" >Profile</h2>
+            <div class="row">
+                {% for item in name %}
+                    <div class="col-10 col-lg-4 col-md-4 col-sm-6">
+                        {% if item.userprofile.image %}
+                        <div>
+                            <img class="face"  style="width: 90%; box-shadow: 0 0 20px 0 pink"  src="{{item.userprofile.image.url}}" alt="">
+                        </div> 
+                        {% else %}
+                        <div>
+                            <img class="face"  style="width: 90%; box-shadow: 0 0 20px 0 pink"  src="{% static 'pic/human_icon1.png' %}" alt="">
+                        </div>
+                        {% endif %}
+                        <a href="{% url 'view' item.id %}">
+                            <h4 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"><center>{{ item.username }}</center></h4>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+   </div>
+{% else %}
+
+    <div class="container body">
+        {% if name %}
+        <h2>Profile</h2>
+        <div class="row">
+        {% for item in name %}
+            <div class="col-10 col-lg-4 col-md-4 col-sm-6">
+                {% if item.userprofile.image %}
+                <div>
+                    <img class="face"  style="width: 90%; box-shadow: 0 0 20px 0 pink"  src="{{item.userprofile.image.url}}" alt="">
+                </div> 
+                {% else %}
+                <div>
+                    <img class="face"  style="width: 90%; box-shadow: 0 0 20px 0 pink"  src="{% static 'pic/human_icon1.png' %}" alt="">
+                </div>
+                {% endif %}
+                <a href="{% url 'view' item.id %}">
+                    <h4 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"><center>{{ item.username }}</center></h4>
+                </a>
+            </div>
+        {% endfor %}
+        {% else %}
+            <center><h1>Sorry, we don't have any blog nor blogger related with '{{search}}'.</h1></center> 
+        {% endif %}
+       </div>
+    </div>
+
+{% endif %}
+{% endblock %}

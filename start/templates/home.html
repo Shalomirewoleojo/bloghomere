@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="body">
+    <div class="container">
+        <h6>Note: Empty categories mean there are no blogs with that category yet. If you would like to make one, we welcome you to go to 'create blog' and make one now with ease.</h6 >
+       <a href="{% url 'video' %}"> <h2>Video</h2></a>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.video %} 
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6 ">
+                            <a href="{% url 'videoblog' item.id item.slug %}"><img src="{{item.image_cover.url}}" alt=""></a>
+                            <a href="{% url 'videoblog' item.id item.slug %}"><h6>{{item.title}}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <a href="{% url 'audio' %}"> <h2>Audio</h2></a>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.audio %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'audioblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'audioblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <a href="{% url 'text' %}"> <h2>Text</h2></a>
+        <div class="row">
+                {% for item in blog %}
+                    {% if item.text %}
+                        <div class="col-6 col-lg-2 col-md-4 col-sm-6">
+                            <a href="{% url 'textblog' item.id item.slug %}"><img src="{{ item.image_cover.url }}" alt=""></a>
+                            <a href="{% url 'textblog' item.id item.slug %}"><h6>{{ item.title }}</h6></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        </div>  
+    </div> <br>
+</div>
+{% endblock %}

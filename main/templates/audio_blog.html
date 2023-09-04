@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block title %} {{content.title}} {% endblock %}
+{% load social_share %}
+{% block content %}
+
+<style>
+  .share-btn-container a{
+    color: black;
+  }
+</style>
+
+
+    <div class="container gag">
+        <div>
+            <h1>{{content.title}}</h1> <br>
+            <div class="row justify-content-center">
+              <div class="col-lg-8 col-md-10">
+                <img style="box-shadow: grey 0 0 10px 0;" width="100%" height="280px" src="{{ content.image_cover.url }}" alt="">
+              </div> 
+            </div>
+            <br> <hr> <br>
+            <div style=" justify-content: center;">
+              <!-- <div >
+                <img class="doc" src="images/grapes.jpg" alt="">
+              </div> -->
+              <div> <a style="color: rgb(15, 160, 15);" href="{% url 'view' content.author.id %}"><h4 style="font-family: 'Times New Roman', Times, serif;"> {{ content.author }} </h4></a> <br>
+                <strong>Genre</strong>: {{ content.category }} <br>
+                {% if content.description|safe %}
+                <strong>Description</strong>:
+                {{ content.description|safe }}
+              </div> <br> <br> 
+              {% endif %} <hr>
+              <!-- <div>
+                <audio src="{{ content.audio.url }}"></audio>    
+              </div>  -->
+              <audio src="{{ content.audio.url }}" controls>
+                <source src="{{ content.audio.url }}" type="audio/ogg">
+                <source src="{{ content.audio.url }}" type="audio/mpeg">
+                Your browser does not support the media element.
+              </audio>
+              <div> 
+                <a href="{{ content.audio.url }}">View (in case of the above not working)</a>
+              </div>
+              <br> <br>  <hr>
+              Please <a href="{% url 'login' %}">login</a> to like or comment <br>
+              <div style="margin-top: 20px; display:inline-flex" >
+                <div class="like__btn">
+                  <!-- <button class="thumbs">
+                    <span class="material-icons" id="icon">
+                      recommend
+                    </span> 
+                  </button>
+                  <span id="count" style="position:absolute; margin-left: 0px;"><h6>0</h6></span> -->
+
+                  <form action="{% url 'like' %}" method="POST">
+                  {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ content.id }}" id="">
+                    {% if user not in content.liked.all %}
+                        <button class="thumbs">
+                          <span class="material-icons" id="icon">
+                            recommend
+                          </span>
+                        </button>
+                    {% else %}
+                      <button class="thumbs">
+                        <span class="material-icons" id="icon">
+                          thumb_up_alt
+                        </span>
+                      </button>
+                    {% endif %}
+                  </form>
+                  <span id="count" style="position:absolute; margin-left: 40px; margin-top: -40px;"><h6>{{ content.liked.all.count }}</h6></span>
+                </div>
+                <!-- <a style="margin-left: 30px;" href="">
+                  <span class="material-icons">
+                    insert_comment 
+                  </span>
+                </a>
+                <span style="position:absolute; margin-left: 100px;"><h6>2</h6></span> -->
+                <div style="margin-top: 4px;">
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#comment" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation" style="color: pink; margin-top: -5px;">
+                    <span class="material-icons">
+                      insert_comment 
+                    </span>
+                  </button>
+                  <span style="position:absolute; margin-left: 0px;"><h6>{{comments.all.count}}</h6></span>
+                  <div class="collapse navbar-collapse" id="comment">
+                    <div class=" homm">
+                      {% if comments %}
+                        {% for item in comments %}
+                          <div class="comme">
+                              <h6 style="color: teal;">{{item.user}}</h6>
+                              <h6>{{item.body}}</h6>
+                          </div> 
+                        {% endfor %}
+                      {% else %}
+                          <h6>No comment</h6>
+                      {% endif %}
+                      <div class="com">
+                          <form action="{% url 'add_comment' %}" method="POST">
+                          {% csrf_token %}
+                              <input type="hidden" name="post" value="{{content.id}}" id="">
+                              <input type="hidden" name="user" value="{{ user.id }}" id="">
+                              <textarea style="width: 85%; margin-top: 10px;" name="body" placeholder="Add comment" id="" cols="30" rows="2"></textarea>
+                              <button type="submit" class="btn" style="width: 50px; padding:0%; background: white;">
+                                  <span class="material-icons">
+                                      arrow_circle_right
+                                      </span>
+                              </button>
+                          </form>
+                      </div>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div style="margin-left: 5px; margin-top: -1px; ">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#social" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation" style="color: rgb(182, 46, 182)">
+                  <span class="material-icons">
+                    screen_share
+                    </span> 
+                    <span style="position:absolute; margin-left: 0px;"><h6>Share link</h6></span>
+                </button>
+              </div>
+              <div class="collapse navbar-collapse share-btn-container" id="social" style="left: 0;
+              bottom: 0;
+              width: fit-content;
+              box-shadow: 4px 0 8px rgb(182, 46, 182);
+              padding: 16px 10px;
+              margin-left: 70px;
+              background-color: white;">
+              <a style="color: #1877f2;">
+                <i class="fab fa-facebook" style="font-size: xx-large;"> </i>
+                {% post_to_facebook object_or_url "facebook" %}
+              </a> <hr>
+             
+                <a style="color: #1da1f2;">
+                  <i class="fab fa-twitter" style="font-size: xx-large;"></i>
+                  {% post_to_twitter "check out this blog" object_or_url "twitter" link_class %}
+                </a> <hr>
+                <a style="color: #075e54;">
+                  <i class="fab fa-whatsapp" style="font-size: xx-large;"></i>
+                  {% post_to_whatsapp object_or_url "whatsapp" link_class %}
+                </a> <hr>
+                <a style="color: #e60023;">
+                  <i class="fab fa-pinterest" style="font-size: xx-large;"></i>
+                  {% save_to_pinterest object_or_url "pinterest" link_class %}
+                </a> <hr>
+                <a style="color: #0077b5;">
+                  <i class="fab fa-linkedin" style="font-size: xx-large;"></i>
+                </a>
+                {% post_to_linkedin object_or_url "linkedin" %}
+                <hr>
+                 
+                  <input style="border: 1px solid green;" type="text" value= "{{ request.build_absolute_uri }}" id="myInput"
+                  <!-- onclick="Hello()" --> <br>
+                  <button style="border:1px solid plum;" onclick="Hello()" >Copy Link</button>
+
+                  <script>
+                    function Hello() {
+                    var copyText = document.getElementById('myInput')
+                    copyText.select();
+                    document.execCommand('copy')
+                    console.log('Copied Text')
+                  }
+                  </script>
+              </div>
+              <!-- <div style="margin-left: 20px;">{% post_to_facebook object_or_url "post" %}</div>
+                <div>{% post_to_whatsapp object_or_url "salut" %}</div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock %}
+{% add_pinterest_script %}
+        
+        <!-- Social share:
+          https://www.youtube.com/watch?v=zUo76pHPS2Y&list=WL&index=34&t=330s -->
